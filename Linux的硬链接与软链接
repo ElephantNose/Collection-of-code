@@ -1,0 +1,31 @@
+1.Linux的硬链接与软链接
+https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html
+
+Linux文件系统包括：
+	①网络文件系统：nfs,cifs等
+	②磁盘文件系统：ext4,ext3等
+	③特殊文件系统：proc,sysfs,ramfs,tmpfs等
+文件包括：文件名   		 + 数据
+		  		metadata + userdata
+		  		inode等  + data blocks
+
+查看inode：ll -i
+
+硬链接：有着相同inode号，仅文件名不同
+command：ln old_file new_file / link old_file new_file
+特点：
+文件有相同的 inode 及 data block；
+只能对已存在的文件进行创建；
+不能交叉文件系统进行硬链接的创建；
+不能对目录进行创建，只可对文件创建；
+删除一个硬链接文件并不影响其他有相同 inode 号的文件
+
+软链接：本身是一个文件，userdata为被链接文件的inode
+command：ln -s old_file new_file
+特点：
+软链接有自己的文件属性及权限等；
+可对不存在的文件或目录创建软链接；
+软链接可交叉文件系统；
+软链接可对文件或目录创建；
+创建软链接时，链接计数 i_nlink 不会增加；
+删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）。
